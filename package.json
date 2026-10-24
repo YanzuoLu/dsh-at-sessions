@@ -1,0 +1,21 @@
+{
+  "name": "dsh-at-sessions",
+  "version": "0.1.0",
+  "description": "Sessions-only @ suggestions for DeepSeek Harness, excluding archived sessions",
+  "type": "module",
+  "main": "bootstrap.js",
+  "exports": { ".": "./bootstrap.js", "./client": "./lib/client.js", "./package.json": "./package.json" },
+  "files": ["bootstrap.js", "release.json", "dist", "lib/client.js", "cordis.patch.yml"],
+  "scripts": { "build": "node scripts/build.mjs" },
+  "license": "MIT",
+  "author": "Yanzuo Lu",
+  "repository": { "type": "git", "url": "https://github.com/YanzuoLu/dsh-at-sessions.git" },
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": { "platform": "web", "inject": ["@deepseek-ai/dsh-client-ui-reference"] }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.4",
+    "@deepseek-ai/dsh-session-reference": "0.2.0-rc.2"
+  }
+}
