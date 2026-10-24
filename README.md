@@ -5,8 +5,8 @@ A sessions-only `@` menu for DeepSeek Harness Web.
 ## Behavior
 
 - `@` suggestions contain only native session references. File/folder items and other `@` provider categories are not shown.
-- Archived sessions are excluded **before** the native result limit. They cannot fill the result page and crowd out unarchived sessions.
-- Active means **unarchived**, not only currently running. Idle sessions remain eligible. Native self exclusion, title matching, workspace-affinity ranking and subagent grouping are preserved. No extra origin-based exclusions are added.
+- Candidates follow the sidebar's ordinary-session eligibility. Archived sessions, subagents, `session-sidechat-*` side chats, blank placeholders and identities absent from the native sidebar catalog are excluded **before** the result limit.
+- Eligible ordinary sessions may be idle or running. Ordinary forks remain eligible, including rows collapsed under a workspace's More control. Native self exclusion, title matching and workspace-affinity ranking are preserved.
 - An archive or unarchive update refreshes an already-open `@` menu. Old rows immediately become unavailable while the replacement query is pending. Aborted or late results cannot restore them.
 - Labels, keyboard selection, insertion, localization and appearance remain native DSH behavior. No extra button or model instruction is added.
 
@@ -14,7 +14,7 @@ This is an autocomplete preference, not an access-control policy. Existing refer
 
 ## Implementation boundary
 
-The host decorates `sessionReferenceResolver.listCandidates`, asks its original implementation for the complete matching list, filters the current archive set, and reapplies the original cap. It preserves native matching, labels and mention formatting without replacing the reference resolver or modifying global session lists.
+The host decorates `sessionReferenceResolver.listCandidates`, asks its original implementation for the complete matching list, intersects it with eligible rows from the native `sessionController.list` catalog and the current archive set, then reapplies the original cap. It preserves native matching, labels and mention formatting without replacing the reference resolver or modifying global session lists. Catalog reads use the same metadata and blank/origin flags as the sidebar, without resuming agents or reading full cold transcripts.
 
 The client adapts the current input-trigger registry in place. It preserves each source's identity and registration lifecycle, wrapping only `@` candidate lookup. The native reference lookup still performs its ordinary file RPC before its returned file rows are filtered. No global file-reference API is patched. This is a menu-only change, not a promise to eliminate all native autocomplete I/O.
 

@@ -1,7 +1,7 @@
 {
   "name": "dsh-at-sessions",
   "version": "0.1.0",
-  "description": "Sessions-only @ suggestions for DeepSeek Harness, excluding archived sessions",
+  "description": "Sidebar-eligible ordinary session references in the DeepSeek Harness @ menu",
   "type": "module",
   "main": "bootstrap.js",
   "exports": { ".": "./bootstrap.js", "./client": "./lib/client.js", "./package.json": "./package.json" },
